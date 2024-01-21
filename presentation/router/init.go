@@ -2,6 +2,9 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	"quqo_challenge/docs"
 	"quqo_challenge/domain/db"
 	"quqo_challenge/infrastructure/config"
 )
@@ -24,6 +27,11 @@ func InitRouter(p *db.Persistence, a config.Configuration) *gin.Engine {
 
 	apiR := r.Group("/api")
 	ProductRoutes(apiR, p)
+
+	docs.SwaggerInfo.Title = "QUQO CHALLENGE"
+	docs.SwaggerInfo.Version = "1.0"
+	docs.SwaggerInfo.Schemes = []string{"http", "https"}
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	return r
 }

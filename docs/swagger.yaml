@@ -1,0 +1,150 @@
+definitions:
+  entity.Product:
+    properties:
+      category:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      image_url:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      stock:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/products:
+    get:
+      consumes:
+      - application/json
+      description: API for get request.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.Product'
+            type: array
+      summary: get all products
+      tags:
+      - Requests
+    post:
+      consumes:
+      - application/json
+      description: API for post request.
+      parameters:
+      - description: Product list
+        in: body
+        name: Array
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Product'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.Product'
+            type: array
+      summary: create product list
+      tags:
+      - Requests
+  /api/products/:id:
+    delete:
+      consumes:
+      - application/json
+      description: API for delete request.
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: delete product
+      tags:
+      - Requests
+    get:
+      consumes:
+      - application/json
+      description: API for get request.
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Product'
+      summary: get product by ID
+      tags:
+      - Requests
+    put:
+      consumes:
+      - application/json
+      description: API for put request.
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Product'
+      summary: update product
+      tags:
+      - Requests
+  /api/products/search:
+    get:
+      consumes:
+      - application/json
+      description: API for get request.
+      parameters:
+      - description: Search by name key
+        in: query
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.Product'
+            type: array
+      summary: search product by name
+      tags:
+      - Requests
+swagger: "2.0"

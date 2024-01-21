@@ -20,6 +20,12 @@ func NewProductController(s service.ProductService) *ProductController {
 }
 
 // GetAllProductsController
+// @Summary get all products
+// @Description API for get request.
+// @Tags Requests
+// @Accept json
+// @Produce json
+// @Success 200 {array} entity.Product
 // @Router /api/products [GET]
 func (con *ProductController) GetAllProductsController(c *gin.Context) {
 	data, err := con.service.GetAllProductsService()
@@ -32,6 +38,13 @@ func (con *ProductController) GetAllProductsController(c *gin.Context) {
 }
 
 // GetProductByIdController
+// @Summary get product by ID
+// @Description API for get request.
+// @Tags Requests
+// @Accept json
+// @Produce json
+// @Param id path int true "Product ID"
+// @Success 200 {object} entity.Product
 // @Router /api/products/:id [GET]
 func (con *ProductController) GetProductByIdController(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
@@ -50,7 +63,35 @@ func (con *ProductController) GetProductByIdController(c *gin.Context) {
 	c.JSON(http.StatusOK, network.BuildSuccessResponse(network.Success, data))
 }
 
+// SearchProductController
+// @Summary search product by name
+// @Description API for get request.
+// @Tags Requests
+// @Accept json
+// @Produce json
+// @Param name query string true "Search by name key"
+// @Success 200 {array} entity.Product
+// @Router /api/products/search [GET]
+func (con *ProductController) SearchProductController(c *gin.Context) {
+	key := c.Query("name")
+
+	data, err := con.service.SearchProductService(key)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, network.BuildErrorResponse(network.InternalServerError))
+		return
+	}
+
+	c.JSON(http.StatusOK, network.BuildSuccessResponse(network.Success, data))
+}
+
 // CreateProductsController
+// @Summary create product list
+// @Description API for post request.
+// @Tags Requests
+// @Accept json
+// @Produce json
+// @Param Array body entity.Product true "Product list"
+// @Success 200 {array} entity.Product
 // @Router /api/products [POST]
 func (con *ProductController) CreateProductsController(c *gin.Context) {
 	var productList []entity.Product
@@ -69,6 +110,13 @@ func (con *ProductController) CreateProductsController(c *gin.Context) {
 }
 
 // UpdateProductController
+// @Summary update product
+// @Description API for put request.
+// @Tags Requests
+// @Accept json
+// @Produce json
+// @Param id path int true "Product ID"
+// @Success 200 {object} entity.Product
 // @Router /api/products/:id [PUT]
 func (con *ProductController) UpdateProductController(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
@@ -96,6 +144,13 @@ func (con *ProductController) UpdateProductController(c *gin.Context) {
 }
 
 // DeleteProductController
+// @Summary delete product
+// @Description API for delete request.
+// @Tags Requests
+// @Accept json
+// @Produce json
+// @Param id path int true "Product ID"
+// @Success 200 {object} string
 // @Router /api/products/:id [DELETE]
 func (con *ProductController) DeleteProductController(c *gin.Context) {
 	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)
@@ -112,18 +167,4 @@ func (con *ProductController) DeleteProductController(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, network.BuildSuccessResponse(network.Success, ""))
-}
-
-// SearchProductController
-// @Router /api/products/search?name= [GET]
-func (con *ProductController) SearchProductController(c *gin.Context) {
-	key := c.Query("name")
-
-	data, err := con.service.SearchProductService(key)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, network.BuildErrorResponse(network.InternalServerError))
-		return
-	}
-
-	c.JSON(http.StatusOK, network.BuildSuccessResponse(network.Success, data))
 }
