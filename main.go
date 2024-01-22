@@ -11,7 +11,7 @@ import (
 func init() {
 	if err := godotenv.Load(); err != nil {
 		log.Println("NO ENV FOUND")
-		panic(err)
+		//panic(err)
 	}
 }
 
