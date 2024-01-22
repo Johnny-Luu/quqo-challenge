@@ -1,6 +1,6 @@
 module quqo_challenge
 
-go 1.22rc1
+go 1.21.5
 
 require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
